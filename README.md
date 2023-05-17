@@ -66,4 +66,3 @@ python manage.py runserver
 <div align="center">
     <h3><----------Thank You----------><h3>
 </div>
-
