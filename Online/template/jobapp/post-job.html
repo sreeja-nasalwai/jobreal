@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="section-hero overlay inner-page bg-image" style="background-image: url(/static/images/hero_4.jpg);" id="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h1 class="text-white font-weight-bold">Post A Job</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="site-section">
+  <div class="container">
+    {% include 'messages.html' %}
+    <div class="row mb-5 justify-content-center">
+      <div class="col-lg-8">
+        <form method="POST" action="">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="row form-group">
+              <div class="col-md-12 mb-3 mb-md-0">
+                <label class="text-black" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.name == 'job_type' %}
+                  <select name="job_type" class="selectpicker border rounded" id="id_job_type" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Job Type">
+                    <option value="1" {% if field.value == "1" %}selected{% endif %}>Full time</option>
+                    <option value="2" {% if field.value == "2" %}selected{% endif %}>Part time</option>
+                    <option value="3" {% if field.value == "3" %}selected{% endif %}>Internship</option>
+                  </select>
+                {% elif field.name == 'category' %}
+                  <select name="category" class="selectpicker border rounded" id="id_category" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Category">
+                    <option value="IT" {% if field.value == "IT" %}selected{% endif %}>IT</option>
+                    <option value="Marketing" {% if field.value == "Marketing" %}selected{% endif %}>Marketing</option>
+                    <option value="Sales" {% if field.value == "Sales" %}selected{% endif %}>Sales</option>
+                  </select>
+                {% else %}
+                  {{ field }}
+                {% endif %}
+                {% if field.errors %}
+                  <span class="text-danger">{{ field.errors }}</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+          <div class="row form-group">
+            <div class="col-md-12">
+              <input type="submit" value="Post Job" class="btn btn-primary btn-md">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+{% block extra_scripts %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.selectpicker').selectpicker();
+  });
+</script>
+{% endblock %}
